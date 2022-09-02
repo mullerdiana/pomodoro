@@ -1,0 +1,22 @@
+.visible{
+    display:inline;
+}
+.invisible{
+    display:none;
+}
+
+.main-box h3{
+    text-align: center;
+}
+.container-config{
+    justify-content: center;
+    height: 200px;
+    width: 100%;
+    display: flex;
+}
+
+.pomodoro-config{
+    text-align: center;
+    height: 100px;
+    width: 150px;
+}

@@ -4,21 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link rel="stylesheet" href="./css/style.css">
     <title>Pomodoro</title>
 </head>
 <body>
     <h1>Pomodoro</h1>
+    <section class="main-box">
+        <h3>Configure seu pomodoro</h3>
+        <div class="container-config">
+            <div class="pomodoro-config" id="container-work">
+                <h4>Foco</h4>
+                <button class="counter-btn" id="increase-work-time">+</button>
+                <p class="minutes" id="work-timer"></p>
+                <button class="counter-btn" id="decrease-work-time">-</button>
+            </div>
+            <div class="pomodoro-config" id="container-short-break">
+                <h4>Intervalo</h4>
+                <button class="counter-btn" id="increase-break-time__short">+</button>
+                <p class="minutes" id="short-break-timer"></p>
+                <button class="counter-btn" id="decrease-break-time__short">-</button>
+            </div>
+            <div class="pomodoro-config" id="container-long-break">
+                <h4>Intervalo Longo</h4>
+                <button class="counter-btn" id="increase-break-time__long">+</button>
+                <p class="minutes" id="long-break-timer"></p>
+                <button class="counter-btn" id="decrease-break-time__long">-</button>
+            </div>
+            <div class="pomodoro-config" id="container-cicles">
+                <h4>Sessões</h4>
+                <button class="counter-btn" id="increase-cicles">+</button>
+                <p class="minutes" id="number-cicles"></p>
+                <button class="counter-btn" id="decrease-cicles">-</button>
+            </div>
+        </div>
+    </section>
+
     <section class="container-timer">
-        <h2 id="title">Pomodoro</h2>
-        <h2 id="timer">Timer</h2>
-        <p id="work">Foco</p>
-        <p id="pause">Intervalo</p>
-        <p id="cicle">Sessão</p>
-        <button class="btn" id="btn-start">Iniciar</button>
-        <button class="btn" id="btn-stop">Parar</button>
-        <button class="btn" id="btn-continue">Continuar</button>
-        <button class="btn" id="btn-reset">Reset</button>
+        <h3 id="timer">Timer</h3>
+        <div >
+            <p id="focus">Foco</p>
+            <p id="pause">Intervalo</p>
+            <p id="cicle">Sessão</p>
+            <button class="btn visible" id="btn-start"><i class="fi fi-bs-play"></i></button>
+            <button class="btn" id="btn-stop"><i class="fi fi-sr-pause"></i></button>
+            <button class="btn" id="btn-reset">Reset</button>
+        </div>
     </section>
 </body>
 <script src="./scripts/script.js"></script>
