@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>Pomodoro</title>
 </head>
-<body>
+<body >
     <h1>Pomodoro</h1>
     <section class="main-box">
         <h3>Configure seu pomodoro</h3>
@@ -42,14 +42,18 @@
     </section>
 
     <section class="container-timer">
-        <h3 id="timer">Timer</h3>
         <div >
-            <p id="focus">Foco</p>
-            <p id="pause">Intervalo</p>
-            <p id="cicle">Sessão</p>
-            <button class="btn visible" id="btn-start"><i class="fi fi-bs-play"></i></button>
-            <button class="btn" id="btn-stop"><i class="fi fi-sr-pause"></i></button>
-            <button class="btn" id="btn-reset">Reset</button>
+            <div>    
+                <h3 id="timer">Timer</h3>
+                <div class="box-buttons">
+                    <button class="btn visible" id="btn-start"><i class="fi fi-bs-play"></i></button>
+                    <button class="btn" id="btn-stop"><i class="fi fi-sr-pause"></i></button>
+                    <button class="btn" id="btn-reset">Reset</button>
+                </div>
+            </div>
+            <p id="focus" hidden>Hora de focar</p>
+            <p id="pause" hidden>Intervalo</p>
+            <p id="cicle">Sessão:</p>
         </div>
     </section>
 </body>

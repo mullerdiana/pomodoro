@@ -5,7 +5,7 @@
     display:none;
 }
 
-.main-box h3{
+.main-box h3, #timer, .box-buttons{
     text-align: center;
 }
 .container-config{
@@ -15,8 +15,16 @@
     display: flex;
 }
 
+
 .pomodoro-config{
     text-align: center;
     height: 100px;
     width: 150px;
+}
+
+.work{
+    background-color: tomato;
+}
+.break{
+    background-color: cornflowerblue;
 }

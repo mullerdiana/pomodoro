@@ -8,13 +8,21 @@ const pnumberCicles = document.getElementById("number-cicles");
 const timer = document.getElementById("timer");
 
 const increaseWorkTime = document.getElementById("increase-work-time");
-const decreaseWorkTime= document.getElementById("decrease-work-time");
-const increaseShortBreakTime = document.getElementById("increase-break-time__short");
-const decreaseShortBreakTime= document.getElementById("decrease-break-time__short");
-const increaseLongBreakTime = document.getElementById("increase-break-time__long");
-const decreaseLongBreakTime= document.getElementById("decrease-break-time__long");
+const decreaseWorkTime = document.getElementById("decrease-work-time");
+const increaseShortBreakTime = document.getElementById(
+  "increase-break-time__short"
+);
+const decreaseShortBreakTime = document.getElementById(
+  "decrease-break-time__short"
+);
+const increaseLongBreakTime = document.getElementById(
+  "increase-break-time__long"
+);
+const decreaseLongBreakTime = document.getElementById(
+  "decrease-break-time__long"
+);
 const increaseCicles = document.getElementById("increase-cicles");
-const decreaseCicles= document.getElementById("decrease-cicles");
+const decreaseCicles = document.getElementById("decrease-cicles");
 
 // POMODORO VAR CONFIGS
 let workTime = 25;
@@ -29,8 +37,10 @@ increaseWorkTime.addEventListener("click", () => {
   if (workTime < 59) {
     workTime++;
     pWorktime.innerHTML = `${workTime}m`;
+    return workTime;
   } else {
     increaseWorkTime.classList.setAttribute("disabled", "disabled");
+    return workTime;
   }
 });
 
@@ -38,8 +48,10 @@ decreaseWorkTime.addEventListener("click", () => {
   if (workTime > 1) {
     workTime--;
     pWorktime.innerHTML = `${workTime}m`;
+    return workTime;
   } else {
     increaseWorkTime.classList.setAttribute("disabled", "disabled");
+    return workTime;
   }
 });
 
@@ -48,8 +60,10 @@ increaseShortBreakTime.addEventListener("click", () => {
   if (shortBreakTime < 59) {
     shortBreakTime++;
     pShortBreakTime.innerHTML = `${shortBreakTime}m`;
+    return shortBreakTime;
   } else {
     increaseShortBreakTime.classList.setAttribute("disabled", "disabled");
+    return shortBreakTime;
   }
 });
 
@@ -57,8 +71,10 @@ decreaseShortBreakTime.addEventListener("click", () => {
   if (shortBreakTime > 1) {
     shortBreakTime--;
     pShortBreakTime.innerHTML = `${shortBreakTime}m`;
+    return shortBreakTime;
   } else {
     decreaseShortBreakTime.classList.setAttribute("disabled", "disabled");
+    return shortBreakTime;
   }
 });
 
@@ -67,16 +83,20 @@ increaseLongBreakTime.addEventListener("click", () => {
   if (longBreakTime < 59) {
     longBreakTime++;
     pLongBreakTime.innerHTML = `${longBreakTime}m`;
+    return longBreakTime;
   } else {
     increaseLongBreakTime.classList.setAttribute("disabled", "disabled");
+    return longBreakTime;
   }
 });
 decreaseLongBreakTime.addEventListener("click", () => {
   if (longBreakTime > 1) {
     longBreakTime--;
     pLongBreakTime.innerHTML = `${longBreakTime}m`;
+    return longBreakTime;
   } else {
     decreaseLongBreakTime.classList.setAttribute("disabled", "disabled");
+    return longBreakTime;
   }
 });
 
@@ -85,19 +105,22 @@ increaseCicles.addEventListener("click", () => {
   if (cicles < 10) {
     cicles++;
     pnumberCicles.innerHTML = `${cicles}`;
+    return cicles
   } else {
     increaseCicles.classList.setAttribute("disabled", "disabled");
+    return cicles
   }
 });
 decreaseCicles.addEventListener("click", () => {
   if (cicles > 1) {
     cicles--;
     pnumberCicles.innerHTML = `${cicles}`;
+    return cicles
   } else {
     decreaseCicles.classList.setAttribute("disabled", "disabled");
+    return cicles
   }
 });
-
 
 // STARTING VIEWS
 pWorktime.innerHTML = `${workTime}m`;
@@ -105,48 +128,31 @@ pShortBreakTime.innerHTML = `${shortBreakTime}m`;
 pLongBreakTime.innerHTML = `${longBreakTime}m`;
 pnumberCicles.innerHTML = cicles;
 
-
-
-
-
-
 // POMODORO ACTIONS
 const btnStart = document.getElementById("btn-start");
 const btnStop = document.getElementById("btn-stop");
 const btnReset = document.getElementById("btn-reset");
 
-
-
-
-
-
 let remainingWorkTime;
 let minutes;
 let seconds;
 
-let pomodoroTimer = {
-  work: 25 * 60,
-  shortBreak: 5 * 60,
-  longBreak: 15 * 60,
-  longBreakInterval: 4 * 60,
-};
-
-let pomodoro =[
-    {}
-]
-
 btnStart.addEventListener("click", () => {
-    remainingWorkTime = setInterval(() => {
-      minutes = Math.trunc(pomodoroTimer.work / 60);
-      seconds = pomodoroTimer.work % 60;
-      pomodoroTimer.work--;
-      timer.innerHTML = `${minutes} : ${seconds}`;
-      if(minutes === 0 && seconds ===0){
-        clearInterval(remainingWorkTime)
-      }
-    }, 1000);
-  btnStart.setAttribute("disabled", "disabled");
-  btnContinue.classList.toggle("visible");
+  let convertedTime = workTime * 60
+  remainingWorkTime = setInterval(() => {
+    console.log(workTime);
+    minutes = Math.trunc(convertedTime/ 60);
+    seconds = convertedTime % 60;
+    convertedTime--;
+    timer.innerHTML = `${minutes} : ${seconds}`;
+    btnStart.setAttribute("disabled", "disabled");
+    if (minutes === 0 && seconds === 0) {
+      clearInterval(remainingWorkTime);
+      return cicles--
+    }
+  }, 1000);
+
+console.log(cicles)
 });
 
 btnStop.addEventListener("click", () => {
