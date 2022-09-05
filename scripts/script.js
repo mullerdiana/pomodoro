@@ -1,13 +1,10 @@
-// DOM ELEMNTS
-// const focus = document.getElementById("focus");
-// const pause = document.getElementById("pause");
+// DOM ELEMENTS
 const pWorktime = document.getElementById("work-timer");
 const pShortBreakTime = document.getElementById("short-break-timer");
 const pLongBreakTime = document.getElementById("long-break-timer");
 const pnumberCicles = document.getElementById("number-cicles");
 const timer = document.getElementById("timer");
-// const pCurrentCicle = document.getElementById("cicle");
-
+const pCurrentCicle = document.getElementById("cicle");
 const increaseWorkTime = document.getElementById("increase-work-time");
 const decreaseWorkTime = document.getElementById("decrease-work-time");
 const increaseShortBreakTime = document.getElementById(
@@ -31,7 +28,6 @@ let shortBreakTime = 5;
 let longBreakTime = 15;
 let breakTime;
 let cicles = 5;
-let step = 0;
 
 // MODIFYNG DEFAULT CONFIGS
 // work
@@ -39,6 +35,10 @@ increaseWorkTime.addEventListener("click", () => {
   if (workTime < 59) {
     workTime++;
     pWorktime.innerHTML = `${workTime}m`;
+    convertedTime = workTime * 60;
+    minutes = Math.trunc(convertedTime / 60);
+    seconds = convertedTime % 60;
+    timer.innerHTML = `${minutes} : ${seconds}`;
     return workTime;
   } else {
     increaseWorkTime.classList.setAttribute("disabled", "disabled");
@@ -47,10 +47,13 @@ increaseWorkTime.addEventListener("click", () => {
 });
 
 decreaseWorkTime.addEventListener("click", () => {
-  pCurrentCicle.innerHTML = cicles;
   if (workTime > 1) {
     workTime--;
     pWorktime.innerHTML = `${workTime}m`;
+    convertedTime = workTime * 60;
+    minutes = Math.trunc(convertedTime / 60);
+    seconds = convertedTime % 60;
+    timer.innerHTML = `${minutes} : ${seconds}`;
     return workTime;
   } else {
     increaseWorkTime.classList.setAttribute("disabled", "disabled");
@@ -129,7 +132,7 @@ decreaseCicles.addEventListener("click", () => {
 pWorktime.innerHTML = `${workTime}m`;
 pShortBreakTime.innerHTML = `${shortBreakTime}m`;
 pLongBreakTime.innerHTML = `${longBreakTime}m`;
-// pnumberCicles.innerHTML = cicles;
+pnumberCicles.innerHTML = cicles;
 
 // POMODORO ACTIONS
 const btnStart = document.getElementById("btn-start");
@@ -147,6 +150,7 @@ btnStart.addEventListener("click", () => {
 function runPomodoroTimer() {
   let isWork = true;
   let convertedTime = workTime * 60;
+  pCurrentCicle.innerHTML = `Sessões restantes = ${cicles}`;
   remainingWorkTime = setInterval(() => {
     minutes = Math.trunc(convertedTime / 60);
     seconds = convertedTime % 60;
@@ -179,20 +183,35 @@ function breakMoment() {
       isBreak = false;
       clearInterval(remainingBreakTime);
       cicles--;
-      if(cicles >=1){
+      if (cicles >= 1) {
         runPomodoroTimer();
       } else {
-        endTimer()
+        endTimer();
       }
     }
   }, 100);
 }
 
-function endTimer(){
-  console.log('fim');
+function endTimer() {
+  console.log("fim");
 }
 
 btnStop.addEventListener("click", () => {
   clearInterval(remainingWorkTime);
+  btnStart.removeAttribute("disabled", "disabled");
+});
+
+btnReset.addEventListener("click", () => {
+  clearInterval(remainingWorkTime);
+  convertedTime = workTime * 60;
+  
+  minutes = Math.trunc(convertedTime / 60);
+  seconds = convertedTime % 60;
+  timer.innerHTML = `${minutes} : ${seconds}`;
+  
+  pWorktime.innerHTML = `${workTime}m`;
+  pShortBreakTime.innerHTML = `${shortBreakTime}m`;
+  pLongBreakTime.innerHTML = `${longBreakTime}m`;
+  pnumberCicles.innerHTML = cicles;
   btnStart.removeAttribute("disabled", "disabled");
 });
