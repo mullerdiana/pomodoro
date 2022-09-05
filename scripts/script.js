@@ -6,6 +6,7 @@ const pShortBreakTime = document.getElementById("short-break-timer");
 const pLongBreakTime = document.getElementById("long-break-timer");
 const pnumberCicles = document.getElementById("number-cicles");
 const timer = document.getElementById("timer");
+// const pCurrentCicle = document.getElementById("cicle");
 
 const increaseWorkTime = document.getElementById("increase-work-time");
 const decreaseWorkTime = document.getElementById("decrease-work-time");
@@ -46,6 +47,7 @@ increaseWorkTime.addEventListener("click", () => {
 });
 
 decreaseWorkTime.addEventListener("click", () => {
+  pCurrentCicle.innerHTML = cicles;
   if (workTime > 1) {
     workTime--;
     pWorktime.innerHTML = `${workTime}m`;
@@ -127,7 +129,7 @@ decreaseCicles.addEventListener("click", () => {
 pWorktime.innerHTML = `${workTime}m`;
 pShortBreakTime.innerHTML = `${shortBreakTime}m`;
 pLongBreakTime.innerHTML = `${longBreakTime}m`;
-pnumberCicles.innerHTML = cicles;
+// pnumberCicles.innerHTML = cicles;
 
 // POMODORO ACTIONS
 const btnStart = document.getElementById("btn-start");
@@ -139,27 +141,31 @@ let minutes;
 let seconds;
 
 btnStart.addEventListener("click", () => {
-  let convertedTime = workTime * 60;
-  
-
-    remainingWorkTime = setInterval(() => {
-       minutes = Math.trunc(convertedTime / 60);
-       seconds = convertedTime % 60;
-       convertedTime--;
-       timer.innerHTML = `${minutes} : ${seconds}`;
-       btnStart.setAttribute("disabled", "disabled");
-       if (minutes === 0 && seconds === 0) {
-         clearInterval(remainingWorkTime);
-         breakMoment();
-       }
-     }, 1000);
+  runPomodoroTimer();
 });
 
-function breakMoment(){
+function runPomodoroTimer() {
+  let isWork = true;
+  let convertedTime = workTime * 60;
+  remainingWorkTime = setInterval(() => {
+    minutes = Math.trunc(convertedTime / 60);
+    seconds = convertedTime % 60;
+    convertedTime--;
+    timer.innerHTML = `${minutes} : ${seconds}`;
+    btnStart.setAttribute("disabled", "disabled");
+    if (minutes === 0 && seconds === 0) {
+      clearInterval(remainingWorkTime);
+      breakMoment();
+      isWork = false;
+    }
+  }, 100);
+}
+function breakMoment() {
+  let isBreak = true;
   let convertedShortBreakTime = shortBreakTime * 60;
   let convertedLongBreakTime = longBreakTime * 60;
   let breakTime;
-  if(cicles > 1){
+  if (cicles > 1) {
     breakTime = convertedShortBreakTime;
   } else {
     breakTime = convertedLongBreakTime;
@@ -170,11 +176,20 @@ function breakMoment(){
     breakTime--;
     timer.innerHTML = `${minutes} : ${seconds}`;
     if (minutes === 0 && seconds === 0) {
+      isBreak = false;
       clearInterval(remainingBreakTime);
       cicles--;
-      step++;
+      if(cicles >=1){
+        runPomodoroTimer();
+      } else {
+        endTimer()
+      }
     }
-  }, 1000);
+  }, 100);
+}
+
+function endTimer(){
+  console.log('fim');
 }
 
 btnStop.addEventListener("click", () => {
