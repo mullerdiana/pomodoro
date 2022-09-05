@@ -28,6 +28,7 @@ const decreaseCicles = document.getElementById("decrease-cicles");
 let workTime = 25;
 let shortBreakTime = 5;
 let longBreakTime = 15;
+let breakTime;
 let cicles = 5;
 let step = 0;
 
@@ -105,20 +106,20 @@ increaseCicles.addEventListener("click", () => {
   if (cicles < 10) {
     cicles++;
     pnumberCicles.innerHTML = `${cicles}`;
-    return cicles
+    return cicles;
   } else {
     increaseCicles.classList.setAttribute("disabled", "disabled");
-    return cicles
+    return cicles;
   }
 });
 decreaseCicles.addEventListener("click", () => {
   if (cicles > 1) {
     cicles--;
     pnumberCicles.innerHTML = `${cicles}`;
-    return cicles
+    return cicles;
   } else {
     decreaseCicles.classList.setAttribute("disabled", "disabled");
-    return cicles
+    return cicles;
   }
 });
 
@@ -138,22 +139,43 @@ let minutes;
 let seconds;
 
 btnStart.addEventListener("click", () => {
-  let convertedTime = workTime * 60
-  remainingWorkTime = setInterval(() => {
-    console.log(workTime);
-    minutes = Math.trunc(convertedTime/ 60);
-    seconds = convertedTime % 60;
-    convertedTime--;
+  let convertedTime = workTime * 60;
+  
+
+    remainingWorkTime = setInterval(() => {
+       minutes = Math.trunc(convertedTime / 60);
+       seconds = convertedTime % 60;
+       convertedTime--;
+       timer.innerHTML = `${minutes} : ${seconds}`;
+       btnStart.setAttribute("disabled", "disabled");
+       if (minutes === 0 && seconds === 0) {
+         clearInterval(remainingWorkTime);
+         breakMoment();
+       }
+     }, 1000);
+});
+
+function breakMoment(){
+  let convertedShortBreakTime = shortBreakTime * 60;
+  let convertedLongBreakTime = longBreakTime * 60;
+  let breakTime;
+  if(cicles > 1){
+    breakTime = convertedShortBreakTime;
+  } else {
+    breakTime = convertedLongBreakTime;
+  }
+  let remainingBreakTime = setInterval(() => {
+    minutes = Math.trunc(breakTime / 60);
+    seconds = breakTime % 60;
+    breakTime--;
     timer.innerHTML = `${minutes} : ${seconds}`;
-    btnStart.setAttribute("disabled", "disabled");
     if (minutes === 0 && seconds === 0) {
-      clearInterval(remainingWorkTime);
-      return cicles--
+      clearInterval(remainingBreakTime);
+      cicles--;
+      step++;
     }
   }, 1000);
-
-console.log(cicles)
-});
+}
 
 btnStop.addEventListener("click", () => {
   clearInterval(remainingWorkTime);
