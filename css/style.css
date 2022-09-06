@@ -1,10 +1,6 @@
 .visible{
     display:inline;
 }
-.invisible{
-    display:none;
-}
-
 .main-box h3, #timer, .box-buttons{
     text-align: center;
 }
@@ -15,6 +11,12 @@
     display: flex;
 }
 
+.container-timer{
+    width:50%;
+    margin: auto;
+    padding: 2rem;
+    background-color: rgb(196, 244, 244);
+}
 
 .pomodoro-config{
     text-align: center;
@@ -22,9 +24,22 @@
     width: 150px;
 }
 
+#timer{
+    font-size: 1.5rem;
+}
+#cicle{
+    font-size: 1.2rem;
+}
+
 .work{
-    background-color: tomato;
+    background-color: rgb(67, 23, 15);
+    padding: 12px;
+    font-weight: bold;
+    color: white;
 }
 .break{
-    background-color: cornflowerblue;
+    background-color: rgb(14, 49, 49);
+    padding: 12px;
+    font-weight: bold;
+    color: white;
 }

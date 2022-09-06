@@ -4,6 +4,8 @@ const pShortBreakTime = document.getElementById("short-break-timer");
 const pLongBreakTime = document.getElementById("long-break-timer");
 const pnumberCicles = document.getElementById("number-cicles");
 const timer = document.getElementById("timer");
+const focus = document.getElementById("focus");
+const pause = document.getElementById("pause");
 const pCurrentCicle = document.getElementById("cicle");
 const increaseWorkTime = document.getElementById("increase-work-time");
 const decreaseWorkTime = document.getElementById("decrease-work-time");
@@ -28,6 +30,13 @@ let shortBreakTime = 5;
 let longBreakTime = 15;
 let breakTime;
 let cicles = 5;
+let step = 1;
+
+
+// Audios
+let bell = new Audio("./audio/bell.mp3")
+let volta = new Audio("./audio/volta.mp3")
+let final = new Audio("./audio/final.mp3")
 
 // MODIFYNG DEFAULT CONFIGS
 // work
@@ -140,6 +149,7 @@ const btnStop = document.getElementById("btn-stop");
 const btnReset = document.getElementById("btn-reset");
 
 let remainingWorkTime;
+let remainingBreakTime;
 let minutes;
 let seconds;
 
@@ -148,9 +158,10 @@ btnStart.addEventListener("click", () => {
 });
 
 function runPomodoroTimer() {
-  let isWork = true;
   let convertedTime = workTime * 60;
-  pCurrentCicle.innerHTML = `Sessões restantes = ${cicles}`;
+  pause.classList.remove("visible","work");
+  focus.classList.add("visible", "work");
+  pCurrentCicle.innerHTML = `Você está na sessão ${step} de ${cicles}`;
   remainingWorkTime = setInterval(() => {
     minutes = Math.trunc(convertedTime / 60);
     seconds = convertedTime % 60;
@@ -158,33 +169,37 @@ function runPomodoroTimer() {
     timer.innerHTML = `${minutes} : ${seconds}`;
     btnStart.setAttribute("disabled", "disabled");
     if (minutes === 0 && seconds === 0) {
+      bell.play();
       clearInterval(remainingWorkTime);
       breakMoment();
-      isWork = false;
     }
   }, 100);
 }
+
 function breakMoment() {
-  let isBreak = true;
   let convertedShortBreakTime = shortBreakTime * 60;
   let convertedLongBreakTime = longBreakTime * 60;
   let breakTime;
+  focus.classList.remove("visible","work");
+  pause.classList.add("visible", "break");
   if (cicles > 1) {
     breakTime = convertedShortBreakTime;
   } else {
     breakTime = convertedLongBreakTime;
   }
-  let remainingBreakTime = setInterval(() => {
+  remainingBreakTime = setInterval(() => {
     minutes = Math.trunc(breakTime / 60);
     seconds = breakTime % 60;
     breakTime--;
     timer.innerHTML = `${minutes} : ${seconds}`;
     if (minutes === 0 && seconds === 0) {
-      isBreak = false;
+      pause.classList.remove("visible", "break");
       clearInterval(remainingBreakTime);
       cicles--;
+      step++;
       if (cicles >= 1) {
         runPomodoroTimer();
+        volta.play();
       } else {
         endTimer();
       }
@@ -193,10 +208,11 @@ function breakMoment() {
 }
 
 function endTimer() {
-  console.log("fim");
+  final.play();
 }
 
 btnStop.addEventListener("click", () => {
+  clearInterval(remainingBreakTime);
   clearInterval(remainingWorkTime);
   btnStart.removeAttribute("disabled", "disabled");
 });
