@@ -146,6 +146,7 @@ pnumberCicles.innerHTML = cicles;
 // POMODORO ACTIONS
 const btnStart = document.getElementById("btn-start");
 const btnStop = document.getElementById("btn-stop");
+const btnContinue = document.getElementById("btn-continue");
 const btnReset = document.getElementById("btn-reset");
 
 let remainingWorkTime;
@@ -173,7 +174,7 @@ function runPomodoroTimer() {
       clearInterval(remainingWorkTime);
       breakMoment();
     }
-  }, 100);
+  }, 1000);
 }
 
 function breakMoment() {
@@ -204,7 +205,7 @@ function breakMoment() {
         endTimer();
       }
     }
-  }, 100);
+  }, 1000);
 }
 
 function endTimer() {
@@ -214,7 +215,7 @@ function endTimer() {
 btnStop.addEventListener("click", () => {
   clearInterval(remainingBreakTime);
   clearInterval(remainingWorkTime);
-  btnStart.removeAttribute("disabled", "disabled");
+  btnContinue.removeAttribute("disabled", "disabled");
 });
 
 btnReset.addEventListener("click", () => {
