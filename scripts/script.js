@@ -32,11 +32,10 @@ let breakTime;
 let cicles = 5;
 let step = 1;
 
-
 // Audios
-let bell = new Audio("./audio/bell.mp3")
-let volta = new Audio("./audio/volta.mp3")
-let final = new Audio("./audio/final.mp3")
+let bell = new Audio("./audio/bell.mp3");
+let volta = new Audio("./audio/volta.mp3");
+let final = new Audio("./audio/final.mp3");
 
 // MODIFYNG DEFAULT CONFIGS
 // work
@@ -146,7 +145,8 @@ pnumberCicles.innerHTML = cicles;
 // POMODORO ACTIONS
 const btnStart = document.getElementById("btn-start");
 const btnStop = document.getElementById("btn-stop");
-const btnContinue = document.getElementById("btn-continue");
+// const btnContinue = document.getElementById("btn-continue");
+// btnContinue.setAttribute("disabled", "disabled");
 const btnReset = document.getElementById("btn-reset");
 
 let remainingWorkTime;
@@ -154,13 +154,10 @@ let remainingBreakTime;
 let minutes;
 let seconds;
 
+let convertedTime = workTime * 60;
 btnStart.addEventListener("click", () => {
-  runPomodoroTimer();
-});
-
-function runPomodoroTimer() {
-  let convertedTime = workTime * 60;
-  pause.classList.remove("visible","work");
+  // runPomodoroTimer();
+  pause.classList.remove("visible", "work");
   focus.classList.add("visible", "work");
   pCurrentCicle.innerHTML = `Você está na sessão ${step} de ${cicles}`;
   remainingWorkTime = setInterval(() => {
@@ -174,14 +171,49 @@ function runPomodoroTimer() {
       clearInterval(remainingWorkTime);
       breakMoment();
     }
-  }, 1000);
+  }, 100);
+});
+
+function runPomodoroTimer() {
+  let convertedTime = workTime * 60;
+  pause.classList.remove("visible", "work");
+  focus.classList.add("visible", "work");
+  pCurrentCicle.innerHTML = `Você está na sessão ${step} de ${cicles}`;
+  remainingWorkTime = setInterval(() => {
+    minutes = Math.trunc(convertedTime / 60);
+    seconds = convertedTime % 60;
+    convertedTime--;
+    timer.innerHTML = `${minutes} : ${seconds}`;
+    btnStart.setAttribute("disabled", "disabled");
+    if (minutes === 0 && seconds === 0) {
+      bell.play();
+      clearInterval(remainingWorkTime);
+      breakMoment();
+    }
+  }, 100);
 }
 
+// btnContinue.addEventListener("click", () => {
+//   remainingWorkTime = setInterval(() => {
+//     minutes = Math.trunc(convertedTime / 60);
+//     seconds = convertedTime % 60;
+//     convertedTime--;
+//     timer.innerHTML = `${minutes} : ${seconds}`;
+//     btnStart.setAttribute("disabled", "disabled");
+//     if (minutes === 0 && seconds === 0) {
+//       bell.play();
+//       clearInterval(remainingWorkTime);
+//       breakMoment();
+//     }
+//   }, 100);
+//   console.log(remainingWorkTime)
+// });
+
+let convertedShortBreakTime = shortBreakTime * 60;
+let convertedLongBreakTime = longBreakTime * 60;
 function breakMoment() {
-  let convertedShortBreakTime = shortBreakTime * 60;
-  let convertedLongBreakTime = longBreakTime * 60;
   let breakTime;
-  focus.classList.remove("visible","work");
+  focus.classList.remove("visible", "work");
   pause.classList.add("visible", "break");
   if (cicles > 1) {
     breakTime = convertedShortBreakTime;
@@ -205,7 +237,7 @@ function breakMoment() {
         endTimer();
       }
     }
-  }, 1000);
+  }, 100);
 }
 
 function endTimer() {
@@ -215,20 +247,21 @@ function endTimer() {
 btnStop.addEventListener("click", () => {
   clearInterval(remainingBreakTime);
   clearInterval(remainingWorkTime);
-  btnContinue.removeAttribute("disabled", "disabled");
+  btnStart.removeAttribute("disabled", "disabled");
 });
 
 btnReset.addEventListener("click", () => {
   clearInterval(remainingWorkTime);
   convertedTime = workTime * 60;
-  
+
   minutes = Math.trunc(convertedTime / 60);
   seconds = convertedTime % 60;
   timer.innerHTML = `${minutes} : ${seconds}`;
-  
+
   pWorktime.innerHTML = `${workTime}m`;
   pShortBreakTime.innerHTML = `${shortBreakTime}m`;
   pLongBreakTime.innerHTML = `${longBreakTime}m`;
   pnumberCicles.innerHTML = cicles;
   btnStart.removeAttribute("disabled", "disabled");
+  // btnContinue.addAttribute("disabled", "disabled");
 });
